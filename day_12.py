@@ -1,3 +1,5 @@
+from functools import cache
+
 file_path = 'input.txt'
 lines = []
 
@@ -17,6 +19,7 @@ for line in lines :
     records.append((springs, groups))
 
 
+@cache
 def is_valid(springs, groups):
     if len(groups) == 0:
         return '#' not in springs
@@ -46,7 +49,15 @@ def part_1():
     total = 0
     for record in records:
         springs, groups = record
-        total += is_valid(springs, groups)
+        total += is_valid(tuple(springs), tuple(groups))
     print(total)
-
 part_1()
+
+
+def part_2():
+    total = 0
+    for record in records:
+        springs, groups = record
+        total += is_valid(tuple('?'.join([springs for _ in range(5)])), tuple(groups*5))
+    print(total)
+part_2()
