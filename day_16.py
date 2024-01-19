@@ -37,13 +37,12 @@ def get_next_cell(current_cell, direction, width, height):
             next_x, next_y = x + 1, y
     return (next_x, next_y)
 
-def part_1():
+
+def get_result(lines, starting_cell, start_direction):
     height = len(lines)
     width = len(lines[0])
 
-    direction = 'right'
-    start = (0, 0)
-    cells_to_explore = [(start, direction)]
+    cells_to_explore = [(starting_cell, start_direction)]
     explored_cells = set()
     while cells_to_explore:
         current_cell, direction = cells_to_explore.pop()
@@ -54,8 +53,6 @@ def part_1():
             explored_cells.add((current_cell, direction))
         x, y = current_cell
         current_cell_char = lines[x][y]
-
-        #print('current_cell:', current_cell_char, current_cell, direction)
 
         if current_cell_char == '.':
             if bounds_check(current_cell, direction, width, height):
@@ -97,16 +94,25 @@ def part_1():
                 next_cell = get_next_cell(current_cell, new_direction, width, height)
                 cells_to_explore.append((next_cell, new_direction))
 
-    print(len(set([cell[0] for cell in explored_cells])))
+    return len(set([cell[0] for cell in explored_cells]))
 
-    grid = []
-    for i in range(height):
-        grid.append(['.' for i in range(width)])
+def part_1():
+    print(get_result(lines, (0, 0), 'right'))
+#part_1()
 
-    for cell in set([cell[0] for cell in explored_cells]):
-        x, y = cell
-        grid[x][y] = '#'
+def part_2():
+    height = len(lines)
+    width = len(lines[0])
+    results = []
 
-    for row in grid:
-        print(''.join(row))
-part_1()
+    for y in range(width):
+        results.append(get_result(lines, (0, y), 'down'))
+        results.append(get_result(lines, (height - 1, y), 'up'))
+
+    for x in range(height):
+        results.append(get_result(lines, (x, 0), 'right'))
+        results.append(get_result(lines, (x, width - 1), 'left'))
+
+    print(max(results))
+
+part_2()
