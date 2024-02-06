@@ -1,5 +1,5 @@
 import re
-import copy
+from copy import deepcopy
 
 file_path = 'input.txt'
 with open(file_path, 'r') as file:
@@ -82,14 +82,14 @@ def get_combinations():
         for key, val in workflows_dic[workflow_name]:
             if val == '-1':
                 if key == 'A':
-                    valid_paths.append(copy.deepcopy(possible_values))
+                    valid_paths.append(deepcopy(possible_values))
                     break
                 elif key != 'R':
-                    path_queue.append((key, copy.deepcopy(possible_values)))
+                    path_queue.append((key, deepcopy(possible_values)))
             else:
                 criteria, destination = val.split(':')
                 if '<' in criteria:
-                    valid_criteria_values = copy.deepcopy(possible_values)
+                    valid_criteria_values = deepcopy(possible_values)
                     valid_criteria_values[key][1] = int(criteria[1:]) - 1
                     possible_values[key][0] = int(criteria[1:])
 
@@ -100,13 +100,13 @@ def get_combinations():
                         path_queue.append((destination, valid_criteria_values))
 
                 elif '>' in criteria:
-                    valid_criteria_values = copy.deepcopy(possible_values)
+                    valid_criteria_values = deepcopy(possible_values)
                     valid_criteria_values[key][0] = int(criteria[1:]) + 1
                     possible_values[key][1] = int(criteria[1:])
                     if destination == 'A':
                         valid_paths.append(valid_criteria_values)
                     elif destination != 'R':
-                        path_queue.append((destination, copy.deepcopy(valid_criteria_values)))
+                        path_queue.append((destination, deepcopy(valid_criteria_values)))
     return get_score(valid_paths)
 
 
