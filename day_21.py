@@ -67,7 +67,6 @@ def part_2():
     r1 = get_plots_for_steps(65)
     r2 = get_plots_for_steps(131 + 65)
     r3 = get_plots_for_steps(65 + 2 * 131)
-    f0, f1, f2 = r1, r2, r3
     a0 = r1
     a1 = (4 * r2 - r3 - 3 * a0) // 2
     a2 = r2 - (a0 + a1)
