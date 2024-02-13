@@ -1,5 +1,4 @@
 from collections import defaultdict
-from copy import deepcopy
 
 with open('input.txt', 'r') as file:
     lines = file.read().splitlines()
